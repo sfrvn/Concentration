@@ -6,11 +6,24 @@ class Concetration
 {
     var cards = [Card]() // no need to import (or `Array<Card>()`)
     
+    var indexOfOneAndOnlyFaceUpCard: Int? // optional because it can be more than one face up card
+    
     func chooseCard(at index: Int) {
-        if cards[index].isFaceUp {
-            cards[index].isFaceUp = false
-        } else {
-            cards[index].isFaceUp = true
+        if !cards[index].isMathced {
+            if let matchIndex = indexOfOneAndOnlyFaceUpCard, matchIndex != index {
+                if cards[matchIndex].identifier == cards[index].identifier {
+                    cards[matchIndex].isMathced = true
+                    cards[index].isMathced = true
+                }
+                cards[index].isFaceUp = true
+                indexOfOneAndOnlyFaceUpCard = nil
+            } else { // either 2 cards (or no cards) are face up
+                for flipDownIndex in cards.indices {
+                    cards[flipDownIndex].isFaceUp = false
+                }
+                cards[index].isFaceUp = true
+                indexOfOneAndOnlyFaceUpCard = index
+            }
         }
     }
     
@@ -19,9 +32,7 @@ class Concetration
             let card = Card()
             cards += [card, card]
         }
-        print(cards)
-        
-        // TODO: Shuffle cards
+        cards.shuffle()
     }
     
 }

@@ -26,6 +26,13 @@ class ViewController: UIViewController {
         }
     }
     
+    @IBAction func startNewGame(_ sender: UIButton) {
+        game = Concetration(numberOfPairsOfCards: (cardButtons.count + 1) / 2)
+        updateViewFromModel()
+        flipCount = 0
+        emojiChoices = ["🧜‍♀️", "🎋", "🦢", "🦚", "🍇", "🩰", "🎠", "🧸", "🎏", "🎐"]
+    }
+    
     func updateViewFromModel() {
         for index in cardButtons.indices { // i have two interpretations of Card
             let button = cardButtons[index] // it's in UI
