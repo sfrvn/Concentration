@@ -1,14 +1,22 @@
 import Foundation
 
-struct Card
+struct Card: Hashable // without using this protocol we can not to compare to cards
 {
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(identifier)
+    }
+    
+    static func ==(lhs: Card, rhs: Card) -> Bool {
+        return lhs.identifier == rhs.identifier
+    }
+        
     var isFaceUp = false
     var isMathced = false
-    var identifier: Int
+    private var identifier: Int
     
-    static var myIdentifierFactory = 0
+    private static var myIdentifierFactory = 0
     
-    static func getUniqueIdentifier() -> Int {
+    private static func getUniqueIdentifier() -> Int {
         myIdentifierFactory += 1
         return myIdentifierFactory
     }
